@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:udemy_mvvm_flutter/data/count_data.dart';
 import 'package:udemy_mvvm_flutter/provider.dart';
+import 'package:udemy_mvvm_flutter/view_model.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -31,6 +31,15 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
+  final ViewModel _viewModel = ViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _viewModel.setRef(ref);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,33 +56,19 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               ref.watch(countMessageProvider),
             ),
             Text(
-              ref.watch(countDataProvider).count.toString(),
+              _viewModel.count,
               style: Theme.of(context).textTheme.headline4,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 FloatingActionButton(
-                  onPressed: () {
-                    CountData countData = ref.read(countDataProvider);
-                    ref.read(countDataProvider.notifier).state =
-                        countData.copyWith(
-                      count: countData.count + 1,
-                      countUp: countData.countUp + 1,
-                    );
-                  },
+                  onPressed: _viewModel.onIncrease,
                   tooltip: "Increment",
                   child: const Icon(CupertinoIcons.add),
                 ),
                 FloatingActionButton(
-                  onPressed: () {
-                    CountData countData = ref.read(countDataProvider);
-                    ref.read(countDataProvider.notifier).state =
-                        countData.copyWith(
-                      count: countData.count - 1,
-                      countDown: countData.countDown + 1,
-                    );
-                  },
+                  onPressed: _viewModel.onDecrease,
                   tooltip: "Decrement",
                   child: const Icon(CupertinoIcons.minus),
                 ),
@@ -82,25 +77,15 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
-                  ref
-                      .watch(countDataProvider.select((value) => value.countUp))
-                      .toString(),
-                ),
-                Text(
-                  ref
-                      .watch(
-                          countDataProvider.select((value) => value.countDown))
-                      .toString(),
-                ),
+                Text(_viewModel.countUp),
+                Text(_viewModel.countDown),
               ],
             )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => ref.read(countDataProvider.notifier).state =
-            const CountData(count: 0, countUp: 0, countDown: 0),
+        onPressed: _viewModel.onReset,
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
       ),
