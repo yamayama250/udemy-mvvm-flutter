@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:udemy_mvvm_flutter/data/repository/count_data_repository.dart';
-import 'package:udemy_mvvm_flutter/provider.dart';
+import 'package:udemy_mvvm_flutter/presentation/page/home_page/provider.dart';
+import 'package:udemy_mvvm_flutter/repository/count_data_repository.dart';
 
-final viewModelProvider = Provider((ref) => ViewModel());
+final counterControllerProvider = Provider((ref) => CounterController());
 
-class ViewModel {
+class CounterController {
   late WidgetRef _ref;
   late final _countDataRepository = _ref.read(countDataRepositoryProvider);
 

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:udemy_mvvm_flutter/data/count_data.dart';
+import 'package:udemy_mvvm_flutter/model/count_data.dart';
 
 final countDataRepositoryProvider =
     Provider((ref) => CountDataRepositoryImpl());
