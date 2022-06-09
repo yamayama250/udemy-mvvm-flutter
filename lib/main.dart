@@ -31,7 +31,7 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-  final ViewModel _viewModel = ViewModel();
+  late final ViewModel _viewModel = ref.read(viewModelProvider);
 
   @override
   void initState() {
