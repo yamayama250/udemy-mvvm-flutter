@@ -1,9 +1,11 @@
-android/* linguist-vendored
-ios/* linguist-vendored
-linux/* linguist-vendored
-macos/* linguist-vendored
-web/* linguist-vendored
-windows/* linguist-vendored
+*.h linguist-vendored
+*.cc linguist-vendored
+*.cpp linguist-vendored
+*.swift linguist-vendored
+*.cc linguist-vendored
+CMakeLists.txt linguist-vendored
+*.cmake linguist-vendored
+*.kt linguist-vendored
 
 *.chopper.dart linguist-generated=true
 *.freezed.dart linguist-generated=true
