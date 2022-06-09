@@ -11,18 +11,11 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
-  late final CounterController _counterController =
-      ref.read(counterControllerProvider);
-
-  @override
-  void initState() {
-    super.initState();
-
-    _counterController.setRef(ref);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final CounterController counterController =
+        ref.read(counterControllerProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("udemy_mvvm_flutter"),
@@ -32,19 +25,19 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              _counterController.count,
+              ref.watch(counterControllerProvider).count.toString(),
               style: Theme.of(context).textTheme.headline4,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 FloatingActionButton(
-                  onPressed: _counterController.onIncrease,
+                  onPressed: counterController.onIncrease,
                   tooltip: "Increment",
                   child: const Icon(CupertinoIcons.add),
                 ),
                 FloatingActionButton(
-                  onPressed: _counterController.onDecrease,
+                  onPressed: counterController.onDecrease,
                   tooltip: "Decrement",
                   child: const Icon(CupertinoIcons.minus),
                 ),
@@ -53,15 +46,19 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(_counterController.countUp),
-                Text(_counterController.countDown),
+                Text(
+                  ref.watch(counterControllerProvider).countUp.toString(),
+                ),
+                Text(
+                  ref.watch(counterControllerProvider).countDown.toString(),
+                ),
               ],
             )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _counterController.onReset,
+        onPressed: counterController.onReset,
         tooltip: 'Increment',
         child: const Icon(Icons.refresh),
       ),

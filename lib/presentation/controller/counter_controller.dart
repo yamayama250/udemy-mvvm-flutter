@@ -1,36 +1,33 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:udemy_mvvm_flutter/presentation/page/home_page/provider.dart';
+import 'package:udemy_mvvm_flutter/model/count_data.dart';
 import 'package:udemy_mvvm_flutter/repository/count_data_repository.dart';
 
-final counterControllerProvider = Provider((ref) => CounterController());
+final counterControllerProvider =
+    StateNotifierProvider<CounterController, CountData>((ref) =>
+        CounterController(repository: ref.watch(countDataRepositoryProvider)));
 
-class CounterController {
-  late WidgetRef _ref;
-  late final _countDataRepository = _ref.read(countDataRepositoryProvider);
+class CounterController extends StateNotifier<CountData> {
+  CounterController({required this.repository})
+      : super(const CountData(count: 0, countUp: 0, countDown: 0));
 
-  void setRef(WidgetRef ref) {
-    _ref = ref;
-  }
+  final CountDataRepository repository;
 
-  get count => _ref.watch(countDataProvider).count.toString();
-  get countUp => _ref.watch(countDataProvider).countUp.toString();
-  get countDown => _ref.watch(countDataProvider).countDown.toString();
+  get count => state.count;
+  get countUp => state.countUp;
+  get countDown => state.countDown;
 
   void onIncrease() {
-    _countDataRepository.increase();
-    _ref.watch(countDataProvider.notifier).state =
-        _countDataRepository.countData;
+    repository.increase();
+    state = repository.countData;
   }
 
   void onDecrease() {
-    _countDataRepository.decrease();
-    _ref.watch(countDataProvider.notifier).state =
-        _countDataRepository.countData;
+    repository.decrease();
+    state = repository.countData;
   }
 
   void onReset() {
-    _countDataRepository.reset();
-    _ref.watch(countDataProvider.notifier).state =
-        _countDataRepository.countData;
+    repository.reset();
+    state = repository.countData;
   }
 }
